@@ -26,6 +26,9 @@ module.exports = {
       address: {
         type: Sequelize.STRING,
       },
+      photo: {
+        type: Sequelize.STRING,
+      },
       role: {
         type: Sequelize.INTEGER,
       },
