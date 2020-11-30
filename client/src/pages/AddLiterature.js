@@ -24,15 +24,6 @@ const AddLiterature = () => {
   // Fungsi dari event yang dibuat untuk menghandle perubahan pada field input
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // setFormData({
-    //   title: e.target.value,
-    //   publication: e.target.value,
-    //   pages: e.target.value,
-    //   isbn: e.target.value,
-    //   author: e.target.value,
-    //   status: e.target.value,
-    //   file: fileInput.files[0],
-    // });
   };
 
   // handle penampungan data
@@ -46,38 +37,6 @@ const AddLiterature = () => {
           "Content-Type": "multipart/form-data",
         },
       };
-
-      //   // set payload
-      //   const body = JSON.stringify({
-      //     title,
-      //     publication,
-      //     pages,
-      //     isbn,
-      //     author,
-      //     file,
-      //     status,
-      //   });
-
-      //   // send body (email and password) to endpoint /login
-      //   const res = await API.post("/add-literature", body, config);
-      //   setMessage(res.data.message);
-      //   setShow(true);
-      //   console.log(res);
-      //   // console.log(show);
-
-      //   setFormData({
-      //     title: "",
-      //     publication: "",
-      //     pages: "",
-      //     isbn: "",
-      //     author: "",
-      //     file: "",
-      //   });
-      // } catch (err) {
-      //   console.log(err);
-      //   setMessage(err.message);
-      //   setShow(true);
-      // }
 
       var formData = new FormData();
       formData.append("title", title);
@@ -190,7 +149,6 @@ const AddLiterature = () => {
                     });
                   }}
                   required
-                  multiple
                   style={{ display: "none" }}
                 ></input>
               </div>
@@ -205,9 +163,10 @@ const AddLiterature = () => {
       </div>
       <CustomModal show={show} onHide={() => setShow(false)}>
         <h5 style={style.popup}>
-          {message}. <br />
+          {message}.
+          {/* <br />
           Your literature is waiting for our administrator approval. This can
-          take up to 24 hours. Please check back later.
+          take up to 24 hours. Please check back later. */}
         </h5>
       </CustomModal>
     </div>
@@ -219,7 +178,7 @@ const style = {
     fontFamily: "Times New Roman",
     fontStyle: "normal",
     fontWeight: "normal",
-    fontSize: 18,
+    fontSize: 24,
     color: "white",
     margin: 0,
     textAlign: "center",

@@ -62,7 +62,7 @@ const AdminPage = () => {
         <NavBar />
         <div className="row my-2">
           <h3>Literatures Verification</h3>
-          <form>
+          {/* <form>
             <div className="form-group">
               <select
                 className="form-control"
@@ -77,7 +77,7 @@ const AdminPage = () => {
                 </option>
               </select>
             </div>
-          </form>
+          </form> */}
         </div>
 
         <div className="row">

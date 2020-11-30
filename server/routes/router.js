@@ -7,7 +7,7 @@ const { register, login, checkAuth } = require("../controller/auth");
 
 // Middleware's functions
 const { authenticated } = require("../middleware/authentication");
-const { uploadFile } = require("../middleware/upload");
+const { uploadFile, uploadImage } = require("../middleware/upload");
 
 // Admin's function
 const {
@@ -17,7 +17,7 @@ const {
 } = require("../controller/admin");
 
 // User's function
-const { getUsersData } = require("../controller/user");
+const { getUsersData, changePhoto } = require("../controller/user");
 
 // Literature's functions
 const {
@@ -27,6 +27,7 @@ const {
   addLiterature,
   getByYear,
   getYears,
+  downloadFile,
 } = require("../controller/literature");
 
 // Collections' function
@@ -47,6 +48,7 @@ router.get("/sorted/:status", authenticated, getByStatus);
 
 // routing for Users
 router.get("/users", authenticated, getUsersData);
+router.patch("/change-photo", uploadImage(), authenticated, changePhoto);
 
 // routing for Literature
 router.get("/literature", getLiteratures);
@@ -55,6 +57,7 @@ router.get("/literature/:year", getByYear);
 router.get("/literature-search/:keyword", getByTitle);
 router.post("/add-literature", uploadFile(), authenticated, addLiterature);
 router.get("/years", authenticated, getYears);
+router.get("/download/:id", authenticated, downloadFile);
 
 // routing for Collection
 router.get("/my-collection", authenticated, getMyCollection);

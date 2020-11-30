@@ -1,12 +1,44 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import NavBar from "../components/NavBar";
 import MyLiterature from "../components/MyLiterature";
 import { CartContext } from "../context/cartContext";
+import { API } from "../config/api";
 
 const Profile = () => {
   const [state] = useContext(CartContext);
   const dataUser = JSON.stringify(state);
   const userData = JSON.parse(dataUser);
+
+  // Membuat state untuk menampung data sementara
+  const [formData, setFormData] = useState({
+    photo: "",
+  });
+
+  // Destruct element formData menjadi masing-masing key
+  const { photo } = formData;
+
+  // handle penampungan data
+  const handleStore = async (e) => {
+    // e.preventDefault();
+
+    try {
+      const config = {
+        // set header to define format data
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      var formData = new FormData();
+      formData.append("photo", photo);
+      console.log(photo);
+
+      const res = await API.patch("/change-photo", formData, config);
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
@@ -81,15 +113,72 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-3" style={{ textAlign: "right" }}>
-                <img
-                  src={require("../assets/images/profile.jpg")}
-                  className="rounded shadow-sm"
-                  style={{ height: "10.2rem", width: "10.2rem" }}
-                ></img>
-                <button className="Button-o mt-3 py-2">
-                  Change Photo Profile
-                </button>
+
+              {/* profile photo */}
+              <div
+                className="col-3 d-flex align-items-center flex-column"
+                style={{ textAlign: "right" }}
+              >
+                <div className="p-2">
+                  {userData.user.photo ? (
+                    <img
+                      src={`http://localhost:5000/${userData.user.photo}`}
+                      className="rounded shadow-sm"
+                      style={{ height: "10.2rem", width: "10.2rem" }}
+                      alt="my-photo"
+                    />
+                  ) : (
+                    <img
+                      src={require("../assets/images/profile.jpg")}
+                      className="rounded shadow-sm"
+                      style={{
+                        height: "10.2rem",
+                        width: "10.2rem",
+                        objectFit: "cover",
+                      }}
+                      alt="my-photo"
+                    />
+                  )}
+                </div>
+                <div className="p-2">
+                  <form onSubmit={(e) => handleStore(e)}>
+                    <div className="form-group">
+                      <label className="labelPhoto" htmlFor="file">
+                        {photo ? "1 file attached" : "Change Profile Photo"}
+                      </label>
+
+                      <input
+                        type="file"
+                        className="form-control-file"
+                        id="file"
+                        name="photo"
+                        onChange={(e) => {
+                          setFormData({
+                            photo: !e.target.files[0]
+                              ? photo
+                              : e.target.files[0],
+                          });
+                          console.log(photo);
+                        }}
+                        required
+                        style={{ display: "none" }}
+                      ></input>
+                    </div>
+                    {photo ? (
+                      <div>
+                        <button
+                          type="submit"
+                          className="Button-o"
+                          style={{ width: "10.2rem" }}
+                        >
+                          Change Now
+                        </button>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </form>
+                </div>
               </div>
             </div>
           </div>

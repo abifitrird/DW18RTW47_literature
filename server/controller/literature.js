@@ -190,3 +190,36 @@ exports.getYears = async (req, res) => {
     });
   }
 };
+
+exports.downloadFile = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const fileName = await Literature.findOne({
+      where: {
+        id,
+      },
+      attributes: ["file"],
+    });
+    console.log(fileName.file);
+
+    const literatureFile = `${__dirname}/../uploads/files/${fileName.file}`;
+    res.download(literatureFile, function (error) {
+      console.log("Error : ", error);
+    }); // Set disposition and send it.
+
+    res.send({
+      message: "File has been downloaded",
+      data: {
+        id: id,
+        file: fileName.file,
+      },
+    });
+  } catch (err) {
+    res.status(500).send({
+      error: {
+        message: "SERVER ERROR",
+      },
+    });
+  }
+};

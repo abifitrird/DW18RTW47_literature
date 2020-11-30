@@ -31,6 +31,10 @@ const LiteratureDetail = () => {
     const res = API.post(`/add-collection/${id}`);
   };
 
+  const handleClick = (id) => {
+    const res = API.get(`/download/${id}`);
+  };
+
   console.log(literature);
   console.log(id);
   return (
@@ -71,7 +75,12 @@ const LiteratureDetail = () => {
                   <p className="subtitle">{literature.isbn}</p>
                 </div>
                 <div>
-                  <button className="Button-o">Download</button>
+                  <button
+                    className="Button-o"
+                    onClick={() => handleClick(literature.id)}
+                  >
+                    Download
+                  </button>
                 </div>
               </div>
             </div>
